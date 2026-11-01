@@ -12,7 +12,7 @@
 	<artifactId>AI_Document_Processing</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>AI Document Processing</name>
-	<description>AI-powered document processing application with OAuth2 and Spring Security</description>
+	<description>AI-powered document processing application with Spring Security</description>
 	<url/>
 	<licenses>
 		<license/>
