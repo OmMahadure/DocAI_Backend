@@ -33,7 +33,13 @@ public class DocumentIngestionService {
 		
 		try {
 			
+			//Save file metadata in database
+			Document document= documentService.saveDocument(file, user);
 			
+			//Use MySQL document ID as reference for Qdrant
+			String documentID=String.valueOf(document.getId());
+			
+			System.out.println("MySQL Document ID: "+documentID);
 			
 			
 			//Extract Text using Apache tika
@@ -72,13 +78,7 @@ public class DocumentIngestionService {
 					        "Gemini embedding generated. Vector size: "
 					        + embedding.size());
 				
-				//Save file metadata in database
-					Document document= documentService.saveDocument(file, user);
-					
-					//Use MySQL document ID as reference for Qdrant
-					String documentID=String.valueOf(document.getId());
-					
-					System.out.println("MySQL Document ID: "+documentID);
+				
 					
 				// STEP 2: Qdrant insertion
 				    System.out.println("Sending vector to Qdrant...");
