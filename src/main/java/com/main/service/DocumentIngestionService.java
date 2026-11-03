@@ -67,10 +67,21 @@ public class DocumentIngestionService {
 				
 				System.out.println("Processing chunk"+ (i+1)+ "/" + chunks.size());
 				
+				
+				 // STEP 1: Gemini embedding
+			    System.out.println("Calling Gemini embedding API...");
+			    
 				//Gemini embedding
 				List<Float> embedding= geminiEmbeddingService.generateEmbedding(chunk);
 				
+				 System.out.println(
+					        "Gemini embedding generated. Vector size: "
+					        + embedding.size());
 				
+				 
+				// STEP 2: Qdrant insertion
+				    System.out.println("Sending vector to Qdrant...");
+				    
 				//Store vector + metadata
 				qdrantService.saveChunk(
 						documentID, 
@@ -78,6 +89,10 @@ public class DocumentIngestionService {
 						i, 
 						chunk, 
 						embedding);
+				
+				 System.out.println(
+					        "Qdrant insertion successful for chunk " + (i + 1)
+					    );
 				
 			}
 			return chunks.size();
