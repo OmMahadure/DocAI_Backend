@@ -1,0 +1,13 @@
+.git
+.gitignore
+.idea/
+.vscode/
+
+target/
+uploads/
+node_modules/
+
+.env
+.env.*
+*.log
+*.lnk

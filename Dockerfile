@@ -1,28 +1,24 @@
-# --- Stage 1: Build the Application ---
-FROM eclipse-temurin:17-jdk-alpine AS build
-WORKDIR /app
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 
-# Copy Maven wrapper files and pom.xml
-COPY mvnw .
-COPY .mvn .mvn
+WORKDIR /workspace
+
 COPY pom.xml .
+COPY .mvn .mvn
+COPY mvnw .
+COPY mvnw.cmd .
 
-# Download dependencies (cached if pom.xml doesn't change)
-RUN ./mvnw dependency:go-offline -B
+RUN mvn -B dependency:go-offline
 
-# Copy source code and build the executable JAR
 COPY src src
-RUN ./mvnw package -DskipTests
 
-# --- Stage 2: Run the Application ---
-FROM eclipse-temurin:17-jre-alpine
+RUN mvn -B -DskipTests package
+
+FROM eclipse-temurin:17-jre
+
 WORKDIR /app
 
-# Copy the built JAR from the build stage
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /workspace/target/*.jar app.jar
 
-# Render assigns a dynamic port via environment variable
 EXPOSE 8080
 
-# Run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "exec java ${JAVA_OPTS:-} -jar app.jar --server.port=${PORT:-8080}"]
