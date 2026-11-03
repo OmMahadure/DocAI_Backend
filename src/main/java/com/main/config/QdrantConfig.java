@@ -17,18 +17,18 @@ public class QdrantConfig {
 	 @Value("${qdrant.grpc.port}")
 	 private int grpcPort;
 	 
-	 @Value("${qdrant.api.key:}")
-	    private String apiKey;
-	 
-	 @Value("${qdrant.use.tls:false}")
-	    private boolean useTls;
+//	 @Value("${qdrant.api.key:}")
+//	    private String apiKey;
+//	 
+//	 @Value("${qdrant.use.tls:false}")
+//	    private boolean useTls;
 	 
 	 @Bean
 	 public QdrantClient qdrantClient() {
 		 
 		 return new QdrantClient(
 				 QdrantGrpcClient
-				 .newBuilder(host,grpcPort, useTls)
+				 .newBuilder(host,grpcPort, false)
 				 .build()
 				 );
 		 
