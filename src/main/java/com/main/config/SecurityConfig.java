@@ -62,7 +62,7 @@ public class SecurityConfig {
 
 	    configuration.setAllowedOrigins(
 	        List.of("http://localhost:5173",
-	        		"https://docai-frontend-seven.vercel.app")
+	        		"https://docai-document-assistant.vercel.app")
 	    );
 
 	    configuration.setAllowedMethods(
